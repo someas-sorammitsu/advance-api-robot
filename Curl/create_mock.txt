@@ -1,0 +1,28 @@
+curl --request POST \
+  --url http://localhost:2525/imposters \
+  --header 'Accept: application/json' \
+  --header 'Authorization: Bearer undefined' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "protocol": "http",
+  "port": 2020,
+  "name": "api test",
+  "requests": [
+    
+  ],
+  "stubs": [{
+
+"responses": [{ 
+    "inject": "function(request, state, logger) { var data = JSON.parse(request.body); var data = data['\''data'\'']; var $username = data['\''username'\'']; var $password = data['\''password'\'']; if ($username == '\''admin'\'' && $password == '\''password'\'') { return { headers: { '\''Content-Type'\'': '\''application/json'\'' }, statusCode: 200, body: JSON.stringify({ '\''status'\'': { '\''code'\'': '\''success'\'', '\''username'\'': $username, '\''password'\'': $password, '\''message'\'': '\''success Olala !'\'' } }) } } else if ($username != '\''admin'\'') { return { headers: { '\''Content-Type'\'': '\''application/json'\'' }, statusCode: 400, body: JSON.stringify({ '\''status'\'': { '\''code'\'': '\''Failed'\'', '\''message'\'': '\''username is not :'\''+$username+'\''!'\'' } }) } } else if ($password == '\''password'\'') { return { headers: { '\''Content-Type'\'': '\''applicaction/json'\'' }, statusCode: 200, body: JSON.stringify({ '\''status'\'': { '\''code'\'': '\''success'\'', '\''message'\'': '\''the password is matched!'\'' } }) } } else if ($password != '\''password'\'') { return { headers: { '\''Content-Type'\'': '\''applicaction/json'\'' }, statusCode: 400, body: JSON.stringify({ '\''status'\'': { '\''code'\'': '\''Failed'\'', '\''message'\'': '\''the password is Invalid!'\'' } }) } } else { return { headers: { '\''Content-Type'\'': '\''application/json'\'' }, statusCode: 400, body: JSON.stringify({ '\''status'\'': { '\''code'\'': '\''Failed'\'', '\''message'\'': '\''Something when wrong!!!'\'', } }) } } }"
+             }],
+        "predicates": [
+        {
+          "startsWith": {
+            "method": "POST",
+            "path": "/mb/test"
+          }
+        }
+      ]
+    }
+  ]
+}'

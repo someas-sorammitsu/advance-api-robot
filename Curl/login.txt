@@ -1,0 +1,10 @@
+curl --request POST \
+  --url http://localhost:2020/mb/test \
+  --header 'Authorization: Bearer undefined' \
+  --header 'content-type: application/json' \
+  --data '{
+	"data": {
+		"username": "admin",
+		"password": "password"
+	}
+}'
